@@ -6,7 +6,7 @@ import java.util.Scanner;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 public class Main {
-    public void bruh() throws InterruptedException {
+    public void outdatedOldCode() throws InterruptedException {
         //use lucid chart to map out
 //        MazegenOld generator1 = new MazegenOld(50,50);
 //        generator1.generate();
@@ -18,21 +18,8 @@ public class Main {
 
         //generator.test();
 
-
-
-
-
-
-
-
-
-
-
         //Scanner moveInput = new Scanner(System.in);
         //String moveCommand = "oof";
-
-
-
 
         //int counter = 0;
 
@@ -60,7 +47,6 @@ public class Main {
 //                    System.out.println("Invalid input");
 //            }
 //
-//
 //            moveCommand = moveInput.nextLine();
 //            Thread.sleep(500);
 //
@@ -69,8 +55,9 @@ public class Main {
     }
 
 
-
     public static void main(String[]args) {
+        //open window to get starting parameters for simulation
+        //from there it will instantiate the GUI and run it
         InfoGetUI infoUI = new InfoGetUI();
     }
 }

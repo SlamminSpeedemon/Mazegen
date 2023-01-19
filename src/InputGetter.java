@@ -9,17 +9,15 @@ public class InputGetter extends JPanel {
     KeyListener listener;
 
     public InputGetter(MazeUI ui) {
+        //initializer with a key listner and tell it to connect with the UI window
         listener = new MyKeyListener(ui);
         addKeyListener(listener);
         setFocusable(true);
     }
 
-    public void startInputGetter() {
-
-    }
-
+//below is used for debugging the key listener
 //    public static void main(String[] args) {
-//        JFrame frame = new JFrame("Mini Tennis");
+//        JFrame frame = new JFrame("keystrokes broke again :( ");
 //        KeyboardExample keyboardExample = new KeyboardExample();
 //        frame.add(keyboardExample);
 //        frame.setSize(200, 200);
@@ -78,7 +76,6 @@ public class InputGetter extends JPanel {
                     break;
                 default:
                     System.out.println("Invalid input");
-
             }
         }
 

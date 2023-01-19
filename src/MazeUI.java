@@ -42,6 +42,9 @@ public class MazeUI extends JFrame {
 
         array = maze;
         this.fileDirectory = new Hashtable();
+
+        //CRITICAL --> Change root file directory to properly match resource file path!
+
         String fileFolder = "C:\\Users\\patelhar\\IdeaProjects\\Mazegen\\ResourceFiles\\";
         fileDirectory.put("e", fileFolder + "32bitBlackTile.png");
         fileDirectory.put(" ", fileFolder + "32bitWhiteTile.png");
@@ -82,13 +85,11 @@ public class MazeUI extends JFrame {
 
     }
 
-
     public void updateComponents(int[] vectorChange, String directionCode) throws InterruptedException {
         if (!active) {
             System.out.println("Moves are inactive");
             return;
         }
-
         //for optimization --> only the cords that change are updated
         ArrayList<Integer> changedCords = new ArrayList<>(); //evens are row, and odds are col --> 0,1 [row1,col1]
 
@@ -110,13 +111,11 @@ public class MazeUI extends JFrame {
             return;
         }
 
-
         if (playerRow >= 0 && playerCol >= 0 && playerRow < array.length && playerCol < array[0].length) {
             if (array[playerRow][playerCol].equals(" ")) {
                 //move player
                 array[playerRow-vectorChange[0]][playerCol-vectorChange[1]] = " ";
                 array[playerRow][playerCol] = directionCode;
-
                 //System.out.println("Moved player");
             } else {
                 playerRow -= vectorChange[0];
@@ -132,39 +131,28 @@ public class MazeUI extends JFrame {
             if (playerRow < 0) {
                 playerRow = 0;
             }
-
             array[playerRow][playerCol] = directionCode;
         }
 
         changedCords.add(playerRow);
         changedCords.add(playerCol);
 
-
         setDisplayArray();
-
 
         if (optimization) {
             for (int i = 0; i < changedCords.size(); i += 2) {
                 jLabels[changedCords.get(i)][changedCords.get(i+1)].setIcon(new javax.swing.ImageIcon((String) fileDirectory.get(displayArray[changedCords.get(i)][changedCords.get(i+1)])));
             }
 
-
-
         } else {
             for (int i = 0; i < displayArray.length; i++) {
                 //System.out.println();
                 for (int j = 0; j < displayArray[i].length; j++) {
                     //System.out.print(displayArray[i][j] + "\t");
-
                     jLabels[i][j].setIcon(new javax.swing.ImageIcon((String) fileDirectory.get(displayArray[i][j])));
-
                 }
-
             }
         }
-
-
-
 
     }
 
@@ -181,46 +169,44 @@ public class MazeUI extends JFrame {
     }
 
     public void setDisplayArray() {
+        //returns a view size x view size array of tiles
         int rMin = playerRow - displayRowTileSize;
         int rMax = playerRow + displayRowTileSize;
         int cMin = playerCol - displayColTileSize;
         int cMax = playerCol + displayColTileSize;
-
         //System.out.println("started --> rmax: "+rMax+"\trmin: "+rMin+"\t\tcmax: "+cMax+"\tcMin: "+cMin);
 
+        //make sure accessed tiles are not out of bounds
         while (rMin < 0) {
             rMin += 1;
             rMax += 1;
-        }
-        while (rMax > array.length) {
+        } while (rMax > array.length) {
             rMin -= 1;
             rMax -= 1;
-        }
-        while (cMin < 0) {
+        } while (cMin < 0) {
             cMin += 1;
             cMax += 1;
-        }
-        while (cMax > array[0].length) {
+        } while (cMax > array[0].length) {
             cMin -= 1;
             cMax -= 1;
         }
 
         //System.out.println("Finished --> rmax: "+rMax+"\trmin: "+rMin+"\t\tcmax: "+cMax+"\tcMin: "+cMin);
-
         displayArray = new String[rMax-rMin][cMax-cMin];
-
         //System.out.println("\n\nMaking display array of row size: "+(rMax-rMin+1)+"\tand col size: "+(cMax-cMin+1));
 
+        //set display array to the values located in main array
         for (int i = rMin; i < rMax; i++) {
             for (int j = cMin; j < cMax; j++) {
                 //System.out.println("i is " + i + "\t j is " + j + "\t\ti-rMin is " + (i-rMin) + "\tj-cMin is " + (j-cMin));
                 displayArray[i-rMin][j-cMin] = array[i][j];
-
             }
         }
     }
 
     public void setDisplayArray(int rMin, int rMax, int cMin, int cMax) {
+        //debugging tool that does the same thing as the non overloaded function, just takes in the paramaters from
+        //a third party class when stuff isn't initalized for this class
         displayArray = new String[rMax-rMin][cMax-cMin];
 
         //System.out.println("\n\nMaking display array of row size: "+(rMax-rMin+1)+"\tand col size: "+(cMax-cMin+1));
@@ -243,7 +229,6 @@ public class MazeUI extends JFrame {
             if (array[i][0].equals("_")) {
                 playerRow = i;
                 playerCol = 0;
-
                 array[i][0] = "o-N";
             }
         }

@@ -9,6 +9,7 @@ public class MazeGenerator_RDS {
     private String[][] maze;
 
     public MazeGenerator_RDS(int rows, int cols) {
+        //all this code does is implement an algorithim I found on wikipedia that actually works
         rowSize = rows;
         colSize = cols;
         maze = new String[rowSize][colSize];
@@ -22,8 +23,7 @@ public class MazeGenerator_RDS {
         }
     }
 
-    public void generate() {
-
+    public void generate() { //generates a maze using the given parameters set in the constructor
         ArrayList<Integer> startPointSelector = new ArrayList<>();
         for (int i = 1; i < rowSize-1; i++) {
             startPointSelector.add(i);
@@ -32,8 +32,6 @@ public class MazeGenerator_RDS {
         int selector1 = (int) (Math.random() * (startPointSelector.size()));
         System.out.println("Start selector is " + startPointSelector.get(selector1));
 
-
-        
         setAll("e");
         int row = startPointSelector.get(selector1);
         int col = 0;
@@ -69,8 +67,6 @@ public class MazeGenerator_RDS {
                 }
             }
 
-
-
             if (backTrack) {
                 //backtrack is necessary
                 //printMaze();
@@ -100,7 +96,7 @@ public class MazeGenerator_RDS {
 
         printMaze();
 
-        //add end point
+        //add end point on last column so player can exit maze
         ArrayList<Integer> endPointSelector = new ArrayList<>();
         for (int i = 0; i < rowSize; i++) {
             endPointSelector.add(i);
@@ -117,9 +113,6 @@ public class MazeGenerator_RDS {
 
         }
 
-
-
-
     }
 
     public void printMaze() {
@@ -132,13 +125,14 @@ public class MazeGenerator_RDS {
     }
 
     public int[][] getValidNodes(int row, int col) {
+        //returns the valid nodes the current generating path can go to
         int[][] returner = new int[4][2];
 
         for (int i = 0; i<returner.length; i++) {
             Arrays.fill(returner[i], -1);
         }
-
-
+        //check[direction] really just calls cardinalCount with the proper changes
+        //could just replace checkNorth with cardinalCount(row-1,col)
             if (checkNorth(row,col)) {
                 returner[0][0] = row-1;
                 returner[0][1] = col;
@@ -160,6 +154,9 @@ public class MazeGenerator_RDS {
     }
 
     public int[] getBackTrack(int row, int col) {
+        //since no valid nodes were avilable, go backwards from dead end
+        //finds the last tile you moved from and returns it
+        //markes the current tile as a dead end
         int[] returner = new int [2];
         returner[0] = -1;
 
@@ -182,8 +179,6 @@ public class MazeGenerator_RDS {
 
         return returner;
     }
-
-
 
     public boolean checkNorth(int row, int col) {
         return cardinalCount(row-1,col);
@@ -220,7 +215,6 @@ public class MazeGenerator_RDS {
             if (maze[row][col+1].equals("_")) _Count++;
             if (maze[row][col-1].equals("_")) _Count++;
         } //WILL NOT CHECK BOUNDARIES, will just return false
-
 
         if (eCount == 3 && _Count == 1 && maze[row][col].equals("e")) {
             return true;
